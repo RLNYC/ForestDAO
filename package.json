@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@celo-tools/use-contractkit": "^3.1.0",
     "@celo/contractkit": "^2.0.0",
+    "antd": "^4.21.2",
     "bignumber.js": "^9.0.2",
     "next": "12.1.6",
     "react": "18.1.0",
