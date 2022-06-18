@@ -47,6 +47,9 @@ function Navbar() {
         <Menu.Item key="buytree">
           <Link href="/buytree">🛒 Buy Trees</Link>
         </Menu.Item>
+        <Menu.Item key="spin">
+          <Link href="/spin">🛒 Spin</Link>
+        </Menu.Item>
       </Menu>
       <div style={styles.headerRight}>
       <Button
