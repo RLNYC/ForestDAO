@@ -49,11 +49,12 @@ contract ForestDAO is ERC721URIStorage {
   constructor() ERC721("COTree NFT", "COT") {
   }
 
-  function mintTree() public payable returns (uint) {
+  function mintTree(string memory _cid) public payable returns (uint) {
     treeIds.increment();
     uint256 newTreeId = treeIds.current();
 
     _mint(msg.sender, newTreeId);
+    _setTokenURI(newTreeId, _cid);
 
     listoftrees[newTreeId] = Tree(newTreeId, msg.sender);
     emit TreeCreated(newTreeId, msg.sender);

@@ -1,6 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { Layout, Menu, Button } from 'antd';
+import Web3 from 'web3';
+
+import { CONTRACT_ABI, CONTRACT_ADDRESS }  from '../../helpers/contract';
 
 const styles = {
   header: {
@@ -25,7 +28,33 @@ const styles = {
   },
 };
 
-function Navbar() {
+function Navbar({ account, setAccount, setGContract }) {
+  const connectWallet = async () => {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+
+      await window.ethereum.enable();
+      await loadBlockchain();
+    }
+    else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
+      await loadBlockchain();
+    }
+    else {
+      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
+    }
+  }
+
+  const loadBlockchain = async () => {
+    const web3 = window.web3;
+
+    const accounts = await web3.eth.getAccounts();
+    setAccount(accounts[0]);
+
+    const contract = await new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+    setGContract(contract);
+  }
+
   return (
     <Layout.Header style={styles.header}>
       <p>Logo</p>
@@ -48,15 +77,16 @@ function Navbar() {
           <Link href="/buytree">🛒 Buy Trees</Link>
         </Menu.Item>
         <Menu.Item key="spin">
-          <Link href="/spin">🛒 Spin</Link>
+          <Link href="/spin">💫 Spin</Link>
         </Menu.Item>
       </Menu>
       <div style={styles.headerRight}>
       <Button
         style={{ margin: '0 1rem'}}
         type="primary"
+        onClick={connectWallet}
       >
-        Connect to Wallet
+        { account ? account.substring(0, 7) + '...' + account.substring(35, 42) : "Connect to Wallet" }
       </Button>
       </div>
     </Layout.Header>

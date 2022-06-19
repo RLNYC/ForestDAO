@@ -16,7 +16,7 @@ const styles = {
     flexWrap: "wrap",
     WebkitBoxPack: "start",
     justifyContent: "flex-start",
-    margin: "0 auto",
+    margin: "20px auto",
     maxWidth: "1000px",
     gap: "30px",
   },
@@ -58,7 +58,7 @@ const styles = {
   },
 };
 
-function buytree({ inputValue, setInputValue }) {
+function buytree({ account, gContract }) {
   const [visible, setVisibility] = useState(false);
   const [nftToBuy, setNftToBuy] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -66,50 +66,17 @@ function buytree({ inputValue, setInputValue }) {
   const [tree1Amount, setTree1Amount] = useState(0);
   const [tree2Amount, setTree2Amount] = useState(0);
 
-  async function purchase(treeName) {
-    setLoading(true);
-    const r1 = Math.random();
-    const r2 = Math.random();
+  async function purchase(nft) {
+    try {
+      const txt = await gContract.methods.mintTree(nft.cid).send({ from: account });
+      console.log(txt);
 
-    console.log(treeCollections, "d")
-
-    const fileData = JSON.stringify({
-      location: [-106 + +r1, 40 + +r2],
-      isNew: true,
-      dateOfPlanting: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
-      treeType: treeName
-    });
-
-    const blob = new Blob([fileData], {type: "text/plain"});
-    let data = new FormData();
-    data.append('file', blob);
-
-    const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", data, {
-      maxContentLength: "Infinity",
-      headers: {
-        pinata_api_key: process.env.REACT_APP_PINATA_API_KEY, 
-        pinata_secret_api_key: process.env.REACT_APP_PINATA_SECRET_API_KEY,
-      },
-    })
-
-    console.log(res);
-
-
-    const transaction = await contractProcessor.fetch({
-      params: ops,
-      onSuccess: (msg) => {
-        console.log("success", msg);
-        setLoading(false);
-        setVisibility(false);
-        succPurchase(msg);
-      },
-      onError: (error) => {
-        console.error(error);
-        setLoading(false);
-        failPurchase();
-      },
-    });
-    console.log(transaction);
+      setVisibility(false);
+      succPurchase(txt);
+    } catch (error) {
+      failPurchase();
+      console.log(error);
+    }
   }
 
   const handleBuyClick = (nft) => {
@@ -117,11 +84,11 @@ function buytree({ inputValue, setInputValue }) {
     setVisibility(true);
   };
 
-  function succPurchase(msg) {
+  function succPurchase(txt) {
     let secondsToGo = 10;
     const modal = Modal.success({
       title: "Success!",
-      content: `You have purchased this NFT`,
+      content: `You have purchased this NFT. ${txt.transactionHash}`,
     });
     setTimeout(() => {
       modal.destroy();
@@ -170,7 +137,7 @@ function buytree({ inputValue, setInputValue }) {
                   </div>,
                   <Tooltip title="Add to Cart">
                     <ShoppingCartOutlined
-                      onClick={() => purchase(nft.name)}
+                      onClick={() => purchase(nft)}
                     />
                   </Tooltip>,
                 ]}

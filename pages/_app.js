@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Layout } from 'antd';
 import '../styles/globals.css';
 import "antd/dist/antd.css";
@@ -15,11 +16,17 @@ const styles = {
 };
 
 function MyApp({ Component, pageProps }) {
+  const [account, setAccount] = useState('');
+  const [gContract, setGContract] = useState(null);
+
   return (
     <Layout style={{ height: "100vh", overflow: "auto" }}>
-      <Navbar />
+      <Navbar
+        account={account}
+        setAccount={setAccount}
+        setGContract={setGContract} />
       <div style={styles.content}>
-        <Component {...pageProps} />
+        <Component {...pageProps} account={account} gContract={gContract} />
       </div>
     </Layout>
   )
