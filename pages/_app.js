@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
 import '../styles/globals.css';
+import 'mapbox-gl/dist/mapbox-gl.css'
 import "antd/dist/antd.css";
 
 import Navbar from '../components/layout/Navbar';
