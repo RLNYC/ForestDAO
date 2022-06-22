@@ -1,93 +1,124 @@
-import React, { useState } from 'react';
-import Web3 from 'web3';
 
-const abi = [
-  {
-      "inputs": [
-          {
-              "internalType": "string",
-              "name": "_greeting",
-              "type": "string"
-          }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-  },
-  {
-      "inputs": [],
-      "name": "greet",
-      "outputs": [
-          {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-          }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-  },
-  {
-      "inputs": [
-          {
-              "internalType": "string",
-              "name": "_greeting",
-              "type": "string"
-          }
-      ],
-      "name": "setGreeting",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-  }
-];
+import React from 'react';
+import Image from 'next/image'
+import { Row, Col, Card, Typography, Button } from 'antd';
+import { SmileOutlined, GlobalOutlined, SolutionOutlined, DollarCircleOutlined } from '@ant-design/icons';
 
-const address = "0xB13318E45F727D6FCE72502106b63BAae1bFBBc3";
+import HomeImg from '../assets/home-img.png';
+import HomeImg2 from '../assets/home-img2.png';
+
+const styles = {
+  Landing: {
+    WebkitBoxPack: "start",
+    margin: "10px auto",
+    maxWidth: "1000px",
+  },
+  SubHeader: {
+    color: '#3AA628',
+    fontSize: '26px',
+    marginBottom: '-10px'
+  },
+  SubHeader2: {
+    color: '#3AA628',
+    fontSize: '22px',
+  },
+};
 
 function App() {
-  const [account, setAccount] = useState('');
-  const [gContract, setGContract] = useState(null);
+  return <div style={styles.Landing}>
+    <br />
+    <br />
+    <Row gutter={16}>
+      <Col className="gutter-row" xs={{ span: 32 }} md={{ span: 12 }}>
+        <Typography.Title style={{ marginTop: '3rem', marginBottom: 0}}>
+          Build Your Forest 
+        </Typography.Title>
+        <p style={styles.SubHeader}>Buy Trees</p>
+        <p style={styles.SubHeader}>Earn CO2 Credits</p>
+        <br />
+        <Button className="primary-bg-color" type="primary" size="large">
+          Get STARTED
+        </Button>
+      </Col>
+      <Col className="gutter-row" xs={{ span: 32 }} md={{ span: 12 }}>
+        <center>
+          <Image src={HomeImg} alt="Home" width={300} height={300} />
+        </center>
+      </Col>
+    </Row>
+    <br />
+    <br />
+    <br />
+    <Row gutter={16}>
+      <Col className="gutter-row" xs={{ span: 32 }} md={{ span: 12 }} lg={{ span: 6}}>
+        <Card>
+          <center>
+            <SmileOutlined style={{ fontSize: '3rem'}} />
+            <h2>
+              Innovative
+            </h2>
+            <p>Each tree is an NFT.  You own it and earn CO2 credit as NFT annualy.</p>
+          </center>
+        </Card>
+      </Col>
+      <Col className="gutter-row" xs={{ span: 32 }} md={{ span: 12 }} lg={{ span: 6}}>
+        <Card>
+          <center>
+            <GlobalOutlined style={{ fontSize: '3rem'}} />
+            <h2>Reduce CO2</h2>
+            <p>We need more forests to capture carbon and combat climate change.</p>
+          </center>
+        </Card>
+      </Col>
+      <Col className="gutter-row" xs={{ span: 32 }} md={{ span: 12 }} lg={{ span: 6}}>
+        <Card>
+          <center>
+            <SolutionOutlined style={{ fontSize: '3rem'}} />
+            <h2>Biodiversity</h2>
+            <p>Your trees fosters a vibrant ecosystems for wildlife.</p>
+          </center>
+        </Card>
+      </Col>
+      <Col className="gutter-row" xs={{ span: 32 }} md={{ span: 12 }} lg={{ span: 6}}>
+        <Card>
+          <center>
+            <DollarCircleOutlined style={{ fontSize: '3rem'}} />
+            <h2>Rewarding</h2>
+            <p>Once carbon contribution of your trees decline, it's cut for timber -  All the profit goes to you.</p>
+          </center>
+        </Card>
+      </Col>
+    </Row>
 
-  const connectWallet = async () => {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-      await window.ethereum.enable();
-      await loadBlockchain();
-    }
-    else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
-      await loadBlockchain();
-    }
-    else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
-    }
-  }
+    <Row gutter={16}>
+      <Col className="gutter-row" xs={{ span: 32 }} md={{ span: 12 }}>
+        <Typography.Title style={{ marginTop: '3rem', marginBottom: 0}}>
+          Are you in a giving mood?
+        </Typography.Title>
+        <h2 style={styles.SubHeader2}>Send Trees as a gift to your family and friends!</h2>
+        <p>After your tree purchase, you can send it as a gift.</p>
+        <br />
+        <Button className="primary-bg-color" type="primary" size="large" onClick={() => history.push('/NFTMarketPlace')}>
+          Get STARTED
+        </Button>
+      </Col>
+      <Col className="gutter-row" xs={{ span: 32 }} md={{ span: 12 }}>
+        <center>
+          <Image src={HomeImg2} alt="Home" width={300}/>
+        </center>
+      </Col>
+    </Row>
 
-  const loadBlockchain = async () => {
-    const web3 = window.web3;
-
-    const accounts = await web3.eth.getAccounts();
-    setAccount(accounts[0]);
-
-    const contract = await new web3.eth.Contract(abi, address);
-    setGContract(contract);
-    const greet = await contract.methods.greet().call();
-    console.log(greet);
-  }
-
-  const setGreet = async () => {
-    const res = await gContract.methods.setGreeting("Hi").send({ from: account });
-    console.log(res);
-  }
-
-  return (
-    <main>
-      <h1>Celo Voting DApp</h1>
-      <p>{address}</p>
-      <button onClick={connectWallet}>Click here to connect your wallet</button>
-      <button onClick={setGreet}>Set Greet</button>
-    </main>
-  )
+    <br />
+    <br />
+    <br />
+  </div>;
 }
 
 export default App;
