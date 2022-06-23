@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Layout, Menu, Button } from 'antd';
 import Web3 from 'web3';
 
-import { CONTRACT_ABI, CONTRACT_ADDRESS }  from '../../helpers/contract';
+import { FORESTDAO_CONTRACT_ABI, FORESTDAO_CONTRACT_ADDRESS }  from '../../helpers/contract';
 
 const styles = {
   header: {
@@ -51,7 +51,7 @@ function Navbar({ account, setAccount, setGContract }) {
     const accounts = await web3.eth.getAccounts();
     setAccount(accounts[0]);
 
-    const contract = await new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+    const contract = await new web3.eth.Contract(FORESTDAO_CONTRACT_ABI, FORESTDAO_CONTRACT_ADDRESS );
     setGContract(contract);
   }
 
