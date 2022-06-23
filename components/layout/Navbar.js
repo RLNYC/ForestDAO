@@ -3,7 +3,13 @@ import Link from 'next/link';
 import { Layout, Menu, Button } from 'antd';
 import Web3 from 'web3';
 
-import { FORESTDAO_CONTRACT_ABI, FORESTDAO_CONTRACT_ADDRESS }  from '../../helpers/contract';
+import {
+  TICKET_CONTRACT_ADDRESS,
+  GOVTOKEN_CONTRACT_ADDRESS,
+  ERC20_CONTRACT_ABI,
+  FORESTDAO_CONTRACT_ABI,
+  FORESTDAO_CONTRACT_ADDRESS
+ }  from '../../helpers/contract';
 
 const styles = {
   header: {
@@ -28,7 +34,7 @@ const styles = {
   },
 };
 
-function Navbar({ account, setAccount, setGContract }) {
+function Navbar({ account, setAccount, setGContract, setTicketContract, setVoteContract }) {
   const connectWallet = async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
@@ -53,6 +59,12 @@ function Navbar({ account, setAccount, setGContract }) {
 
     const contract = await new web3.eth.Contract(FORESTDAO_CONTRACT_ABI, FORESTDAO_CONTRACT_ADDRESS );
     setGContract(contract);
+
+    const contract2 = await new web3.eth.Contract(ERC20_CONTRACT_ABI, TICKET_CONTRACT_ADDRESS );
+    setTicketContract(contract2);
+
+    const contract3 = await new web3.eth.Contract(ERC20_CONTRACT_ABI, GOVTOKEN_CONTRACT_ADDRESS );
+    setVoteContract(contract3);
   }
 
   return (

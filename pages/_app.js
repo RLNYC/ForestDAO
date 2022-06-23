@@ -18,6 +18,8 @@ const styles = {
 
 function MyApp({ Component, pageProps }) {
   const [account, setAccount] = useState('');
+  const [ticketContract, setTicketContract] = useState(null);
+  const [voteContract, setVoteContract] = useState(null);
   const [gContract, setGContract] = useState(null);
 
   return (
@@ -25,9 +27,16 @@ function MyApp({ Component, pageProps }) {
       <Navbar
         account={account}
         setAccount={setAccount}
-        setGContract={setGContract} />
+        setGContract={setGContract}
+        setTicketContract={setTicketContract}
+        setVoteContract={setVoteContract} />
       <div style={styles.content}>
-        <Component {...pageProps} account={account} gContract={gContract} />
+        <Component
+          {...pageProps}
+          account={account}
+          ticketContract={ticketContract}
+          voteContract={voteContract}
+          gContract={gContract} />
       </div>
     </Layout>
   )

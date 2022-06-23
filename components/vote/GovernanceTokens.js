@@ -14,16 +14,29 @@ const tailLayout = {
   },
 };
 
-function GovernanceTokens() {
+function GovernanceTokens({ account, voteContract, gContract }) {
   const [form] = Form.useForm();
 
   const [ethBalance, setETHBalance] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [govTokenBalance, setGovTokenBalance] = useState(0);
+
+  useEffect(() => {
+    if(voteContract) getGovToken();
+  }, [voteContract])
+
+  const getGovToken = async () => {
+    const amount = await voteContract.methods.balanceOf(account).call();
+    setGovTokenBalance(amount);
+  }
 
   const onFinish = async (values) => {
     try{
       setLoading(true);
       console.log(values);
+      const txt = await gContract.methods.buyTreeDao(values.amount.toString()).send({ from: account });
+      console.log(txt);
+
       setLoading(false);
     } catch(error) {
       console.error(error);
@@ -48,7 +61,7 @@ function GovernanceTokens() {
         </div>
       </Card>
       <Card>
-        <p>Your Available Governance Tokens: 0</p>
+        <p>Your Available Governance Tokens: {govTokenBalance / 10 ** 18}</p>
         <Card title="Purchase Governance Token">
           <Typography.Title level={4} style={{ marginTop: '0'}}>
             Your Available Funds:  {ethBalance / 10 ** 18} CELO

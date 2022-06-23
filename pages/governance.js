@@ -5,17 +5,17 @@ import Sidebar from '../components/vote/Sidebar';
 import GovernanceTokens from '../components/vote/GovernanceTokens';
 import Proposal from '../components/vote/Proposal';
 
-function Governance() {
+function Governance({ account, voteContract, gContract }) {
   const [currentTab, setCurrentTab] = useState("Governance Tokens");
 
   let content;
 
   switch (currentTab) {
     case "Governance Tokens":
-      content = <GovernanceTokens />;
+      content = <GovernanceTokens account={account} voteContract={voteContract} gContract={gContract} />;
       break;
     case "Proposal":
-      content = <Proposal />;
+      content = <Proposal account={account} gContract={gContract} />;
       break;
     default:
       content = 'Page not found';
