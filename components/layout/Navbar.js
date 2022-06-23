@@ -79,8 +79,8 @@ function Navbar({ account, setAccount, setGContract }) {
         <Menu.Item key="forestmap">
           <Link href="/forestmap">🗺️ Forest Map</Link>
         </Menu.Item>
-        <Menu.Item key="vote">
-          <Link href="/vote">🗳️ Vote</Link>
+        <Menu.Item key="governance">
+          <Link href="/governance">🗳️ Governance</Link>
         </Menu.Item>
         <Menu.Item key="spin">
           <Link href="/spin">💫 Spin</Link>

@@ -210,3 +210,7 @@ a {
   width: 100vw;
   height: 50vh;
 }
+
+.white-bg-color {
+  background-color: white !important
+}
