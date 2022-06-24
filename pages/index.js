@@ -84,7 +84,7 @@ function App() {
           <center>
             <DollarCircleOutlined style={{ fontSize: '3rem'}} />
             <h2>Rewarding</h2>
-            <p>Once carbon contribution of your trees decline, it's cut for timber -  All the profit goes to you.</p>
+            <p>Once carbon contribution of your trees decline, it is cut for timber -  All the profit goes to you.</p>
           </center>
         </Card>
       </Col>

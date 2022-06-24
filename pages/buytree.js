@@ -58,11 +58,7 @@ const styles = {
   },
 };
 
-function buytree({ account, gContract }) {
-  const [visible, setVisibility] = useState(false);
-  const [nftToBuy, setNftToBuy] = useState(null);
-  const [loading, setLoading] = useState(false);
-
+function Buytree({ account, gContract }) {
   const [tree1Amount, setTree1Amount] = useState(0);
   const [tree2Amount, setTree2Amount] = useState(0);
 
@@ -71,7 +67,6 @@ function buytree({ account, gContract }) {
       const txt = await gContract.methods.mintTree(nft.cid).send({ from: account });
       console.log(txt);
 
-      setVisibility(false);
       succPurchase(txt);
     } catch (error) {
       failPurchase();
@@ -81,7 +76,6 @@ function buytree({ account, gContract }) {
 
   const handleBuyClick = (nft) => {
     console.log(nft.image);
-    setVisibility(true);
   };
 
   function succPurchase(txt) {
@@ -128,14 +122,15 @@ function buytree({ account, gContract }) {
         <div style={styles.NFTs}>
           {treeCollections?.map((nft, index) => (
               <Card
+                key={index}
                 hoverable
                 actions={[
-                  <div style={styles.NFTs_buttons}>
+                  <div style={styles.NFTs_buttons} key={index}>
                     <Button shape="circle" icon={<MinusOutlined />} size="small" onClick={() => removeTreeFromCart(index)} />
                     <p style={{ margin: '0 7px'}}>{index === 0 ? tree1Amount : tree2Amount}</p>
                     <Button shape="circle" icon={<PlusOutlined />} size="small" onClick={() => addTreeToCart(index)} />
                   </div>,
-                  <Tooltip title="Add to Cart">
+                  <Tooltip title="Add to Cart" key={index}>
                     <ShoppingCartOutlined
                       onClick={() => purchase(nft)}
                     />
@@ -150,7 +145,6 @@ function buytree({ account, gContract }) {
                     style={{ height: "240px" }}
                   />
                 }
-                key={index}
               >
                 <div style={styles.NFTs_header}>
                   <Meta title={nft.name} style={{ fontSize: '30px' }} />
@@ -187,4 +181,4 @@ function buytree({ account, gContract }) {
   );
 }
 
-export default buytree;
+export default Buytree;

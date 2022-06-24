@@ -8,7 +8,7 @@ const styles = {
   },
 }
 
-function vote({ account, gContract }) {
+function Vote({ account, gContract }) {
   const [detail, setDetail] = useState("");
   const [proposals, setProposals] = useState([]);
 
@@ -68,4 +68,4 @@ function vote({ account, gContract }) {
   )
 }
 
-export default vote;
+export default Vote;
