@@ -32,6 +32,12 @@ const styles = {
     fontSize: "15px",
     fontWeight: "600",
   },
+  logo: {
+    width: '150px',
+    fontSize: '16px',
+    marginTop: '20px',
+    color: 'green'
+  }
 };
 
 function Navbar({ account, setAccount, setGContract, setTicketContract, setVoteContract }) {
@@ -69,7 +75,7 @@ function Navbar({ account, setAccount, setGContract, setTicketContract, setVoteC
 
   return (
     <Layout.Header style={styles.header}>
-      <p>Logo</p>
+      <p style={styles.logo}>Forest DAO</p>
       <Menu
         theme="light"
         mode="horizontal"

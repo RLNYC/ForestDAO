@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Typography, Divider, List, Card } from 'antd';
 
 import Wheel from '../Wheel';
+import PrizeInformationCard from '../PrizeInformationCard';
 
 function SpinWheel({ account, gContract, ticketContract, myWinnings, setMyWinnings }) {
   const [wheelclass, setWheelclass] = useState("box");
@@ -58,7 +59,10 @@ function SpinWheel({ account, gContract, ticketContract, myWinnings, setMyWinnin
             earnToken={earnToken}/>
         </Col>
         <Col className="gutter-row" xs={{ span: 32 }} lg={{ span: 10 }}>
-          <Typography.Title level={2} style={{ marginTop: '8rem'}}>
+        <Typography.Title level={3} style={{ marginTop: '8rem'}}>
+          Total Pool Prize: 10,000 Governance Tokens
+          </Typography.Title >
+          <Typography.Title level={2}>
             Your Spin Tickets: {tokenBalance / 10 ** 18}
           </Typography.Title >
           
@@ -69,7 +73,7 @@ function SpinWheel({ account, gContract, ticketContract, myWinnings, setMyWinnin
             itemLayout="horizontal">
               <List.Item>
                 <List.Item.Meta
-                  title={`ETH : ${wonOne / 10 ** 18}`}
+                  title={`Governance Tokens : ${wonOne / 10 ** 18}`}
                 />
               </List.Item>
               <List.Item>
@@ -81,6 +85,8 @@ function SpinWheel({ account, gContract, ticketContract, myWinnings, setMyWinnin
           <br />
         </Col>
       </Row>
+      <Divider orientation="left">Prize Information</Divider>
+      <PrizeInformationCard />
     </Card>
   )
 }
