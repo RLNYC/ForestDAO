@@ -5,7 +5,7 @@ import Sidebar from '../components/spin/Sidebar';
 import SpinWheel from '../components/spin/SpinWheel';
 import Winnings from '../components/spin/Winnings';
 
-function Spin({ walletAddress, ethProvider, givingFundBlockchain, ticketTokenBlockchain }) {
+function Spin({ account, ticketContract, gContract }) {
   const [currentTab, setCurrentTab] = useState("Spin");
   const [myWinnings, setMyWinnings] = useState([]);
 
@@ -14,10 +14,9 @@ function Spin({ walletAddress, ethProvider, givingFundBlockchain, ticketTokenBlo
   switch (currentTab) {
     case "Spin":
       content = <SpinWheel
-        walletAddress={walletAddress}
-        ethProvider={ethProvider}
-        givingFundBlockchain={givingFundBlockchain}
-        ticketTokenBlockchain={ticketTokenBlockchain}
+        account={account}
+        ticketContract={ticketContract}
+        gContract={gContract}
         myWinnings={myWinnings}
         setMyWinnings={setMyWinnings} />;
       break;

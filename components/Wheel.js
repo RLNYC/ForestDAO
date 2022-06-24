@@ -7,7 +7,7 @@ import {
   ProfileOutlined,
 } from "@ant-design/icons";
 
-function Wheel({ wheelclass }) {
+function Wheel({ wheelclass, loading, earnToken }) {
   return (
     <div className="wheel">
       <div className="mainbox">
@@ -44,7 +44,7 @@ function Wheel({ wheelclass }) {
           </div>
         </div>
         <button className="spin"></button>
-          <Button className="primary-bg-color btn-spin" type="primary" size="large">
+          <Button className="primary-bg-color btn-spin" onClick={earnToken} type="primary" size="large" loading={loading}>
             SPIN (Cost 1 Ticket)
           </Button>
       </div>

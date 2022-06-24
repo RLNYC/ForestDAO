@@ -3,7 +3,7 @@ import { Row, Col, Typography, Divider, List, Card } from 'antd';
 
 import Wheel from '../Wheel';
 
-function SpinWheel({ walletAddress, ethProvider, givingFundBlockchain, ticketTokenBlockchain, myWinnings, setMyWinnings }) {
+function SpinWheel({ account, gContract, ticketContract, myWinnings, setMyWinnings }) {
   const [wheelclass, setWheelclass] = useState("box");
   const [tokenBalance, setTokenBalance] = useState(0);
   const [winningURL, setWinnginURL] = useState("");
@@ -13,36 +13,12 @@ function SpinWheel({ walletAddress, ethProvider, givingFundBlockchain, ticketTok
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if(ticketTokenBlockchain) getTicketToken();
-  }, [ticketTokenBlockchain])
+    if(ticketContract) getTicketToken();
+  }, [ticketContract])
 
   const getTicketToken = async () => {
-    const amount = await ticketTokenBlockchain.balanceOf(walletAddress);
+    const amount = await ticketContract.methods.balanceOf(account).call();
     setTokenBalance(amount);
-  }
-
-  const takeScreenShot = async () => {
-    const node = document.getElementById('wheelgame');
-    const imageBase64 = await htmlToImage.toPng(node);
-    console.log(imageBase64);
-
-    const imageData = convertBase64ToImage(imageBase64, "winningimg");
-    console.log(imageData);
-
-    const form = new FormData();
-    form.append('file', imageData);
-
-    const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", form, {
-      maxContentLength: "Infinity",
-      headers: {
-        "Content-Type": 'multipart/form-data',
-        pinata_api_key: PINATA_API_KEY, 
-        pinata_secret_api_key: PINATA_SECRET_API_KEY,
-      }
-    })
-    const cidLink = "https://gateway.pinata.cloud/ipfs/" + res.data.IpfsHash;
-    console.log(cidLink);
-    setWinnginURL(cidLink);
   }
 
   const startRotation = (wheelNumber, text) => {
@@ -50,15 +26,13 @@ function SpinWheel({ walletAddress, ethProvider, givingFundBlockchain, ticketTok
     setTimeout(async () => {
       setWheelclass("box start-rotate stop-rotate");
       setIsModalVisible(true);
-      if(text !== "Nothing") takeScreenShot();
     }, (1000 + (125 * +wheelNumber)))
   }
 
   const earnToken = async () => {
     try{
       setLoading(true);
-      const transaction = await givingFundBlockchain.useTicketToken();
-      const tx = await transaction.wait();
+      const tx = await gContract.methods.useTicketToken().send({ from: account });
       console.log(tx);
       setUsedTickets(usedTickets + 1);
       setWonOne(tx.events[tx.events.length - 1].args.amount.toString());
